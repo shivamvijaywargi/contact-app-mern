@@ -1,7 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
-import morgan from "morgan";
 import cors from "cors";
 import morganMiddleware from "./configs/morgan";
 
@@ -22,7 +21,7 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-// Custom Middlewares
+// Custom
 app.use(morganMiddleware);
 
 /**
