@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
+import morganMiddleware from "./configs/morgan";
 
 config();
 
@@ -14,7 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Third-party
 app.use(cookieParser());
-app.use(morgan("dev"));
 app.use(
   cors({
     origin: ["http://localhost:5173"],
@@ -22,6 +22,8 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
+// Custom Middlewares
+app.use(morganMiddleware);
 
 /**
  * @SERVER_STATUS
