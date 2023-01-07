@@ -38,4 +38,9 @@ app.get("/api/ping", (_req, res) => {
   });
 });
 
+// Import all routes
+import userRoutes from "./routes/user.routes";
+
+app.use("/api/v1/users", userRoutes);
+
 export default app;

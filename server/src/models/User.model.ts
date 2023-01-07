@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import ROLES_LIST from "../configs/ROLES_LIST";
 
 const userSchema: Schema = new Schema(
   {
@@ -31,6 +32,15 @@ const userSchema: Schema = new Schema(
       required: [true, "Password is required"],
       minlength: [8, "Name must be atleast 8 characters long"],
       select: false,
+    },
+    role: {
+      type: String,
+      enum: [ROLES_LIST.ADMIN, ROLES_LIST.USER],
+      default: ROLES_LIST.USER,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
     contacts: [
       {
