@@ -40,7 +40,11 @@ app.get("/api/ping", (_req, res) => {
 
 // Import all routes
 import userRoutes from "./routes/user.routes";
+import errorMiddleware from "./middlewares/error.middleware";
 
 app.use("/api/v1/users", userRoutes);
+
+// Custom error middleware
+app.use(errorMiddleware);
 
 export default app;
