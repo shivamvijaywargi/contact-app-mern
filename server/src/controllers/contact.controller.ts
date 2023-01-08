@@ -6,6 +6,28 @@ import User from "../models/User.model";
 import AppErr from "../utils/AppErr";
 
 /**
+ * @GET_ALL_CONTACTS
+ * @ROUTE @GET {{URL}}/api/v1/contacts
+ * @returns All logged in users saved contacts
+ * @ACCESS Private (Logged in user only)
+ */
+export const getAllContacts = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const contacts = await Contact.find({});
+
+    if (!contacts.length) {
+      return next(new AppErr("No contacts found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "All contacts fetched",
+      contacts,
+    });
+  }
+);
+
+/**
  * @CREATE_CONTACT
  * @ROUTE @POST {{URL}}/api/v1/contacts
  * @returns Creates a new contact
@@ -24,6 +46,12 @@ export const createContact = asyncHandler(
 
     if (!name || !phoneNumber) {
       return next(new AppErr("Name and Phone Number are required", 400));
+    }
+
+    const existingContact = await Contact.findOne({ phoneNumber }).lean();
+
+    if (existingContact) {
+      return next(new AppErr("Phone number already exist", 209));
     }
 
     const contact = await Contact.create({
