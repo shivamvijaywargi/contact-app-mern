@@ -23,6 +23,10 @@ const contactSchema: Schema = new Schema(
       required: [true, "Phone number is required"],
       unique: true,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

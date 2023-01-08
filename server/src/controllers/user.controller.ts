@@ -11,7 +11,7 @@ import AppErr from "../utils/AppErr";
  */
 export const getAllUsers = asyncHandler(
   async (_req: Request, res: Response, next: NextFunction) => {
-    const users = await User.find({});
+    const users = await User.find({}).populate("contacts");
 
     if (!users.length) {
       return next(new AppErr("No user found", 404));
@@ -32,7 +32,7 @@ export const getAllUsers = asyncHandler(
  */
 export const getMe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await User.findById(req.user?.user_id);
+    const user = await User.findById(req.user?.user_id).populate("contacts");
 
     if (!user) {
       return next(new AppErr("Unauthorized, please login first", 401));

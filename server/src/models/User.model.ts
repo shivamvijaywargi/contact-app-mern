@@ -48,6 +48,7 @@ const userSchema: Schema = new Schema(
     contacts: [
       {
         type: Schema.Types.ObjectId,
+        ref: "Contact",
       },
     ],
     resetPasswordToken: String,
