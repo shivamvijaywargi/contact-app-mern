@@ -1,6 +1,9 @@
+import crypto from "crypto";
+
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 import ROLES_LIST from "../configs/ROLES_LIST";
 
 const userSchema: Schema = new Schema(
@@ -47,6 +50,8 @@ const userSchema: Schema = new Schema(
         type: Schema.Types.ObjectId,
       },
     ],
+    resetPasswordToken: String,
+    resetPasswordExpiry: Date,
   },
   {
     timestamps: true,
@@ -64,18 +69,34 @@ userSchema.methods = {
     return bcrypt.compare(plainPassword, this.password);
   },
   generateAccessToken: async function () {
-    return await jwt.sign({ _id: this._id }, process.env.ACCESS_TOKEN_SECRET!, {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    });
+    return await jwt.sign(
+      { _id: this._id, role: this.role },
+      process.env.ACCESS_TOKEN_SECRET!,
+      {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+      }
+    );
   },
   generateRefreshToken: async function () {
     return await jwt.sign(
-      { _id: this._id },
+      { _id: this._id, role: this.role },
       process.env.REFRESH_TOKEN_SECRET!,
       {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
       }
     );
+  },
+  generatePasswordResetToken: async function () {
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    this.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    this.resetPasswordExpiry = Date.now() + 15 * 60 * 1000;
+
+    return resetToken;
   },
 };
 

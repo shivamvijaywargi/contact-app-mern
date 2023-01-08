@@ -2,7 +2,9 @@ import express from "express";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
 import morganMiddleware from "./configs/morgan";
+import errorMiddleware from "./middlewares/error.middleware";
 
 config();
 
@@ -40,9 +42,10 @@ app.get("/api/ping", (_req, res) => {
 
 // Import all routes
 import userRoutes from "./routes/user.routes";
-import errorMiddleware from "./middlewares/error.middleware";
+import authRoutes from "./routes/auth.routes";
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 // Custom error middleware
 app.use(errorMiddleware);
