@@ -41,4 +41,17 @@ const verifyToken = asyncHandler(async (req, _res, next) => {
   next();
 });
 
+export const authorizeRoles = (...roles: (number | undefined)[]) =>
+  asyncHandler(async (req, _res, next) => {
+    if (!roles.includes(req.user?.role)) {
+      return next(
+        new AppErr("You are not authorized to access this route", 403)
+      );
+    }
+
+    console.log(roles);
+
+    next();
+  });
+
 export default verifyToken;

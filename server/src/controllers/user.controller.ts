@@ -27,9 +27,9 @@ export const getAllUsers = asyncHandler(
 
 /**
  * @GET_CURRENT_USER_DETAILS
- * @ROUTE @GET {{URL}}/api/v1/users
- * @returns All found Users
- * @ACCESS Private (Admin only)
+ * @ROUTE @GET {{URL}}/api/v1/users/me
+ * @returns Logged in User  details
+ * @ACCESS Private (Logged in user only)
  */
 export const getMe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
