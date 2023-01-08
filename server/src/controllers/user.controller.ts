@@ -23,3 +23,13 @@ export const getAllUsers = asyncHandler(
     });
   }
 );
+
+/**
+ * @GET_CURRENT_USER_DETAILS
+ * @ROUTE @GET {{URL}}/api/v1/users
+ * @returns All found Users
+ * @ACCESS Private (Admin only)
+ */
+export const getMe = asyncHandler(
+  async (_req: Request, res: Response, next: NextFunction) => {}
+);

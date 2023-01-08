@@ -3,9 +3,11 @@ import {
   forgotPassword,
   loginUser,
   logoutUser,
+  refreshToken,
   registerUser,
   resetPassword,
 } from "../controllers/auth.controller";
+import verifyToken from "../middlewares/auth.middleware";
 
 const router = Router();
 
@@ -17,5 +19,6 @@ router.route("/").post(loginUser);
 router.route("/logout").post(logoutUser);
 router.route("/reset").post(forgotPassword);
 router.route("/reset/:token").post(resetPassword);
+router.route("/refresh").post(refreshToken);
 
 export default router;

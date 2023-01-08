@@ -37,7 +37,7 @@ const userSchema: Schema = new Schema(
       select: false,
     },
     role: {
-      type: String,
+      type: Number,
       enum: [ROLES_LIST.ADMIN, ROLES_LIST.USER],
       default: ROLES_LIST.USER,
     },

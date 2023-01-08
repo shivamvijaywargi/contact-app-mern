@@ -1,8 +1,10 @@
 import crypto from "crypto";
 import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 import asyncHandler from "../middlewares/asyncHandler.middleware";
 import User from "../models/User.model";
+import { JwtPayload } from "../types";
 import AppErr from "../utils/AppErr";
 import sendEmail from "../utils/sendEmail";
 
@@ -108,7 +110,7 @@ export const logoutUser = asyncHandler(
   async (_req: Request, res: Response, _next: NextFunction) => {
     res
       .status(200)
-      .cookie("refreshToken", null, {
+      .cookie("refreshToken", "", {
         secure: true,
         httpOnly: true,
         maxAge: 1,
@@ -213,6 +215,45 @@ export const resetPassword = asyncHandler(
     res.status(200).json({
       success: true,
       message: "Password updated successfully, please login",
+    });
+  }
+);
+
+/**
+ * @REFRESH_TOKEN
+ * @ROUTE @POST {{URL}}/api/v1/auth/token
+ * @returns New Access Token if refresh token is valid
+ * @ACCESS Public
+ */
+export const refreshToken = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken: token } = req.cookies;
+
+    if (!token) {
+      return next(new AppErr("No token found, please login", 404));
+    }
+
+    const decoded = (await jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET!
+    )) as JwtPayload;
+
+    if (!decoded) {
+      return next(new AppErr("Invalid Token, please login", 400));
+    }
+
+    const user = await User.findById(decoded._id);
+
+    if (!user) {
+      return next(new AppErr("Unauthorized, please login", 401));
+    }
+
+    const accessToken = await user.generateAccessToken();
+
+    res.status(200).json({
+      success: true,
+      message: "Access token refreshed successfully",
+      accessToken,
     });
   }
 );
