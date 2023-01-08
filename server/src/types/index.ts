@@ -1,4 +1,4 @@
-export interface JwtPayload {
-  _id: string;
+export interface IDecodedJwtPayload {
+  user_id: string;
   role: number;
 }

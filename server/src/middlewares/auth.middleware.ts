@@ -1,16 +1,17 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { IDecodedJwtPayload } from "../types";
 import AppErr from "../utils/AppErr";
 
 import asyncHandler from "./asyncHandler.middleware";
 
 declare module "express" {
   export interface Request {
-    user?: string | JwtPayload;
+    user?: IDecodedJwtPayload;
   }
 }
 
-const verifyToken = asyncHandler(async (req, res, next) => {
-  let token: string;
+const verifyToken = asyncHandler(async (req, _res, next) => {
+  let token: string | JwtPayload;
 
   if (
     req.headers &&
@@ -26,12 +27,12 @@ const verifyToken = asyncHandler(async (req, res, next) => {
     return next(new AppErr("You are not Authorized, please login", 401));
   }
 
-  const decoded = await jwt.verify(
+  const decoded = jwt.verify(
     token,
-    process.env.ACCESS_TOKEN_SECRET as string
-  );
+    process.env.ACCESS_TOKEN_SECRET!
+  ) as IDecodedJwtPayload;
 
-  if (decoded) {
+  if (!decoded) {
     return next(new AppErr("Unauthorized, please login", 401));
   }
 

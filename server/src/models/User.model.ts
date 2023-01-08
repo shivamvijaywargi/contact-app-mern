@@ -69,8 +69,8 @@ userSchema.methods = {
     return bcrypt.compare(plainPassword, this.password);
   },
   generateAccessToken: async function () {
-    return await jwt.sign(
-      { _id: this._id, role: this.role },
+    return jwt.sign(
+      { role: this.role, user_id: this._id.toString() },
       process.env.ACCESS_TOKEN_SECRET!,
       {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
@@ -78,8 +78,8 @@ userSchema.methods = {
     );
   },
   generateRefreshToken: async function () {
-    return await jwt.sign(
-      { _id: this._id, role: this.role },
+    return jwt.sign(
+      { role: this.role, user_id: this._id.toString() },
       process.env.REFRESH_TOKEN_SECRET!,
       {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY,

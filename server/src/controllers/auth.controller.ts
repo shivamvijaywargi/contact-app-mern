@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 import asyncHandler from "../middlewares/asyncHandler.middleware";
 import User from "../models/User.model";
-import { JwtPayload } from "../types";
+import { IDecodedJwtPayload } from "../types";
 import AppErr from "../utils/AppErr";
 import sendEmail from "../utils/sendEmail";
 
@@ -236,13 +236,13 @@ export const refreshToken = asyncHandler(
     const decoded = (await jwt.verify(
       token,
       process.env.REFRESH_TOKEN_SECRET!
-    )) as JwtPayload;
+    )) as IDecodedJwtPayload;
 
     if (!decoded) {
       return next(new AppErr("Invalid Token, please login", 400));
     }
 
-    const user = await User.findById(decoded._id);
+    const user = await User.findById(decoded.user_id);
 
     if (!user) {
       return next(new AppErr("Unauthorized, please login", 401));

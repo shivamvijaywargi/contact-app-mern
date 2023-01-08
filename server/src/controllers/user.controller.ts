@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import asyncHandler from "../middlewares/asyncHandler.middleware";
 import User from "../models/User.model";
+import { IDecodedJwtPayload } from "../types";
 import AppErr from "../utils/AppErr";
 
 /**
@@ -31,5 +32,17 @@ export const getAllUsers = asyncHandler(
  * @ACCESS Private (Admin only)
  */
 export const getMe = asyncHandler(
-  async (_req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.user?.user_id);
+
+    if (!user) {
+      return next(new AppErr("Unauthorized, please login first", 401));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User details",
+      user,
+    });
+  }
 );
