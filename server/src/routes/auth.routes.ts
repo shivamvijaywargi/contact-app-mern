@@ -7,7 +7,6 @@ import {
   registerUser,
   resetPassword,
 } from "../controllers/auth.controller";
-import verifyToken from "../middlewares/auth.middleware";
 
 const router = Router();
 

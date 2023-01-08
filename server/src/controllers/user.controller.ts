@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import asyncHandler from "../middlewares/asyncHandler.middleware";
 import User from "../models/User.model";
-import { IDecodedJwtPayload } from "../types";
 import AppErr from "../utils/AppErr";
 
 /**

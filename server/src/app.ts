@@ -43,9 +43,11 @@ app.get("/api/ping", (_req, res) => {
 // Import all routes
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import contactRoutes from "./routes/contact.routes";
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/contacts", contactRoutes);
 
 // Custom error middleware
 app.use(errorMiddleware);
