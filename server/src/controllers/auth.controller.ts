@@ -99,6 +99,28 @@ export const loginUser = asyncHandler(
 );
 
 /**
+ * @LOGOUT
+ * @ROUTE @POST {{URL}}/api/v1/auth/logout
+ * @returns Logged out successfully
+ * @ACCESS Public
+ */
+export const logoutUser = asyncHandler(
+  async (_req: Request, res: Response, _next: NextFunction) => {
+    res
+      .status(200)
+      .cookie("refreshToken", null, {
+        secure: true,
+        httpOnly: true,
+        maxAge: 1,
+      })
+      .json({
+        success: true,
+        message: "Logged out successfully",
+      });
+  }
+);
+
+/**
  * @FORGOT_PASSWORD
  * @ROUTE @POST {{URL}}/api/v1/auth/reset
  * @returns Passwors reset token email sent to user successfully

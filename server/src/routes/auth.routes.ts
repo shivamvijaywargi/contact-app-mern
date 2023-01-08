@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   forgotPassword,
   loginUser,
+  logoutUser,
   registerUser,
   resetPassword,
 } from "../controllers/auth.controller";
@@ -13,6 +14,7 @@ const router = Router();
  */
 router.route("/new").post(registerUser);
 router.route("/").post(loginUser);
+router.route("/logout").post(logoutUser);
 router.route("/reset").post(forgotPassword);
 router.route("/reset/:token").post(resetPassword);
 
