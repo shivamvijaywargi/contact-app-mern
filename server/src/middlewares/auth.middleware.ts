@@ -49,8 +49,6 @@ export const authorizeRoles = (...roles: (number | undefined)[]) =>
       );
     }
 
-    console.log(roles);
-
     next();
   });
 

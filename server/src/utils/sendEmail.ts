@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import Logger from "./logger";
 
 const sendEmail = async (user: string, subject: string, message: string) => {
   const transporter = nodemailer.createTransport({
@@ -21,8 +22,8 @@ const sendEmail = async (user: string, subject: string, message: string) => {
     text: message,
   });
 
-  console.log("Message sent: %s", mailOptions.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailOptions));
+  Logger.info("Message sent: %s", mailOptions.messageId);
+  Logger.info("Preview URL: %s", nodemailer.getTestMessageUrl(mailOptions));
 };
 
 export default sendEmail;
