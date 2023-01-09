@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+        <Link to={"/"} className="btn btn-ghost normal-case text-xl">
+          Contaverse
+        </Link>
       </div>
       <div className="flex-none gap-2">
         <div className="form-control">
