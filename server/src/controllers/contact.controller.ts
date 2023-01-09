@@ -12,7 +12,7 @@ import AppErr from "../utils/AppErr";
  * @ACCESS Private (Logged in user only)
  */
 export const getAllContacts = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (_req: Request, res: Response, next: NextFunction) => {
     const contacts = await Contact.find({});
 
     if (!contacts.length) {
@@ -72,6 +72,78 @@ export const createContact = asyncHandler(
     res.status(201).json({
       success: true,
       message: "Contact created successfully",
+    });
+  }
+);
+
+/**
+ * @UPDATE_CONTACT
+ * @ROUTE @PUT {{URL}}/api/v1/contacts/:id
+ * @returns Updates existing contact
+ * @ACCESS Private (Logged in user only)
+ */
+export const updateContact = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { name, email, phoneNumber } = req.body;
+    const { contactId } = req.params;
+
+    const contact = await Contact.findById(contactId);
+
+    if (!contact) {
+      return next(new AppErr("Contact does not exist", 404));
+    }
+
+    const updateContact = await Contact.findByIdAndUpdate(
+      contactId,
+      {
+        $set: {
+          name,
+          email,
+          phoneNumber,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!updateContact) {
+      return next(new AppErr("Something went wrong, please try again.", 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Contact updated successfully",
+      updateContact,
+    });
+  }
+);
+
+/**
+ * @DELETE_CONTACT
+ * @ROUTE @DELETE {{URL}}/api/v1/contacts/:id
+ * @returns deletes existing contact
+ * @ACCESS Private (Logged in user only)
+ */
+export const deleteContact = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { contactId } = req.params;
+
+    const contact = await Contact.findById(contactId);
+
+    if (!contact) {
+      return next(new AppErr("Contact does not exist", 404));
+    }
+
+    const deleteContact = await Contact.findByIdAndDelete(contactId);
+
+    if (!deleteContact) {
+      return next(new AppErr("Something went wrong, please try again.", 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Contact deleted successfully`,
     });
   }
 );
