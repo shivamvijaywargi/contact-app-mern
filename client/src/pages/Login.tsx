@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import axiosClient from "../http";
 import useAuthStore from "../stores/authStore";
@@ -23,6 +24,8 @@ const Login = () => {
 
       if (data.success) {
         setIsAuthenticated(true);
+        axiosClient.defaults.headers.authorization = `Bearer ${data.accessToken}`;
+        toast.success(data.message);
         navigate("/");
       }
     } catch (error) {
