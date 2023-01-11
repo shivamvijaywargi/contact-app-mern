@@ -1,9 +1,12 @@
-import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import axiosClient from "../http";
+import useAuthStore from "../stores/authStore";
 
 const Login = () => {
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,12 +22,20 @@ const Login = () => {
       });
 
       if (data.success) {
+        setIsAuthenticated(true);
         navigate("/");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <section className="grid place-items-center mt-12 mb-20">
