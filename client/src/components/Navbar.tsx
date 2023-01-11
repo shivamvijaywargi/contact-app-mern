@@ -1,9 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+
+import axiosClient from "../http";
 
 import useAuthStore from "../stores/authStore";
 
 const Navbar = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { data } = await axiosClient.post("/auth/logout");
+
+    if (data.success) {
+      setIsAuthenticated(false);
+      navigate("/");
+      toast.success(data.message);
+    }
+  };
 
   return (
     <div className="navbar bg-base-100">
@@ -32,16 +47,16 @@ const Navbar = () => {
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
+                <NavLink to={"/profile"} className="justify-between">
                   Profile
                   <span className="badge">New</span>
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a>Settings</a>
+                <NavLink to={"/dashboard"}>Dashboard</NavLink>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={handleLogout}>Logout</button>
               </li>
             </ul>
           </div>
