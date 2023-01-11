@@ -22,14 +22,14 @@ export interface IContacts {
 }
 
 const Dashboard = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
   const [contacts, setContacts] = useState<IContact[] | never[]>([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/login");
+      return navigate("/login");
     }
 
     (async () => {
@@ -41,6 +41,7 @@ const Dashboard = () => {
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
+          console.log(error);
           toast.error(error?.response?.data?.message);
         }
       }
@@ -48,17 +49,17 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto mb-8">
       <table className="table w-full">
         <thead>
           <tr>
-            <th></th>
+            <th>Serial No.</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone Number</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="px-6">
           {contacts &&
             contacts.map((contact, idx) => (
               <tr key={contact._id}>

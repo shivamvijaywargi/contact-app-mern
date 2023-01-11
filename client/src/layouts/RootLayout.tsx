@@ -10,7 +10,9 @@ const RootLayout = () => {
       <Outlet />
       <footer className="text-center">
         Copyright &copy; {date.getFullYear()}. Made with ❤️ by{" "}
-        <a href="https://github.com/shivamvijaywargi">Shivam Vijaywargi</a>
+        <a href="https://github.com/shivamvijaywargi" target={"_blank"}>
+          <span className="text-primary">Shivam Vijaywargi</span>
+        </a>
       </footer>
     </section>
   );
