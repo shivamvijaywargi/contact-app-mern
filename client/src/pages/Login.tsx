@@ -25,9 +25,8 @@ const Login = () => {
 
       if (data.success) {
         setIsAuthenticated(true);
-        axiosClient.defaults.headers.authorization = `Bearer ${data.accessToken}`;
         toast.success(data.message);
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -38,7 +37,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, []);
 

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-import axiosClient, { fetchAllContacts } from "../http";
+import { fetchAllContacts } from "../http";
 import useAuthStore from "../stores/authStore";
 
 export interface IContact {
@@ -35,6 +35,8 @@ const Dashboard = () => {
     (async () => {
       try {
         const { data } = await fetchAllContacts();
+
+        console.log(data);
 
         if (data.success) {
           setContacts(data.contacts);
