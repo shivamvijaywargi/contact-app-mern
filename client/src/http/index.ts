@@ -36,5 +36,7 @@ axiosClient.interceptors.response.use(
 );
 
 export const fetchAllContacts = async () => await axiosClient.get("/contacts");
+export const fetchUserContacts = async () =>
+  await axiosClient.get("/contacts/user");
 
 export default axiosClient;

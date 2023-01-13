@@ -49,7 +49,7 @@ export const getLoggedInUserContacts = asyncHandler(
 
     res.status(200).json({
       success: true,
-      message: "All contacts fetched",
+      message: "All logged in user contacts fetched",
       contacts,
     });
   }
