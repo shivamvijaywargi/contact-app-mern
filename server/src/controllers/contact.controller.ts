@@ -9,11 +9,39 @@ import AppErr from "../utils/AppErr";
  * @GET_ALL_CONTACTS
  * @ROUTE @GET {{URL}}/api/v1/contacts
  * @returns All logged in users saved contacts
- * @ACCESS Private (Logged in user only)
+ * @ACCESS Private (Admin only)
  */
 export const getAllContacts = asyncHandler(
   async (_req: Request, res: Response, next: NextFunction) => {
     const contacts = await Contact.find({});
+
+    if (!contacts.length) {
+      return next(new AppErr("No contacts found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "All contacts fetched",
+      contacts,
+    });
+  }
+);
+
+/**
+ * @GET_ALL_CONTACTS
+ * @ROUTE @GET {{URL}}/api/v1/contacts
+ * @returns All logged in users saved contacts
+ * @ACCESS Private (Admin only)
+ */
+export const getLoggedInUserContacts = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.user?.user_id).populate("contacts");
+
+    if (!user) {
+      return next(new AppErr("No user found", 404));
+    }
+
+    const { contacts, ...data } = user;
 
     if (!contacts.length) {
       return next(new AppErr("No contacts found", 404));
