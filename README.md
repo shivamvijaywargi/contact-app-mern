@@ -28,4 +28,35 @@ This is a full stack contacts app built using MongoDB, ExpressJS, ReactJS, and N
 
 - If the above feature is implemented then an update user route will be required as well.
 
-Note: For now only backend(ExpressJS + Mongoose + TypeScript + Winston + Morgan + NodeMailer + JsonWebToken + Dotenv + Cors + Cookie-Parser + BcryptJS) is complete, I am now working on frontend (ReactJS + TypeScript + (TailwindCSS + DaisyUI) + react-hot-toast + Zustand + axios)
+### Tech stack:
+
+- BACKEND:
+
+  - ExpressJS
+  - Mongoose
+  - TypeScript
+  - Winston
+  - Morgan
+  - NodeMailer
+  - JsonWebToken
+  - Dotenv
+  - Cors
+  - Cookie-Parser
+  - BcryptJS
+
+- FRONTEND:
+
+  - ReactJS
+  - TypeScript
+  - (TailwindCSS + DaisyUI)
+  - react-hot-toast
+  - Zustand
+  - axios
+
+Screenshots:
+![HOME](./screenshots/contacts_home.png)
+![LOGIN](./screenshots/contacts_login.png)
+![REGISTER](./screenshots/contacts_register.png)
+![DASHBOARD](./screenshots/contacts_dashboard.png)
+![NAVBAR](./screenshots/contacts_navbar.png)
+![CREATE_CONTACT](./screenshots/create_contact.png)
