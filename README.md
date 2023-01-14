@@ -18,8 +18,6 @@ This is a full stack contacts app built using MongoDB, ExpressJS, ReactJS, and N
 
 - Users can see their details when logged in
 
-- Admins can see all the user details
-
 - Users once logged in can create, read, update, and delete any of the contacts they have saved.
 
 ## Features thinking to add(Maybe)
