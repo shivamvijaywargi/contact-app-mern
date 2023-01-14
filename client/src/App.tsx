@@ -7,6 +7,7 @@ import {
 
 import RootLayout from "./layouts/RootLayout";
 import Dashboard from "./pages/Dashboard";
+import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="register" element={<Register />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
     </Route>
   )
 );
