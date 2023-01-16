@@ -55,6 +55,7 @@ Screenshots:
 ![HOME](./screenshots/contacts_home.png)
 ![LOGIN](./screenshots/contacts_login.png)
 ![REGISTER](./screenshots/contacts_register.png)
+![FORGOT_PASSWORD](./screenshots/contacts_forgot.png)
 ![DASHBOARD](./screenshots/contacts_dashboard.png)
 ![NAVBAR](./screenshots/contacts_navbar.png)
 ![CREATE_CONTACT](./screenshots/create_contact.png)
