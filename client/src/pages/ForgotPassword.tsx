@@ -8,6 +8,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -16,36 +17,33 @@ const ForgotPassword = () => {
       return toast.error("Enter valid email address");
     }
 
+    setIsLoading(true);
+
     try {
-      const resp = await axiosClient.post("/auth/reset", {
-        email,
-      });
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/auth/reset",
+        {
+          email,
+        }
+      );
 
-      console.log(resp);
+      // const { data } = await axiosClient.post("/auth/reset", {
+      //   email,
+      // });
+
+      if (data.success) {
+        setIsLoading(false);
+        toast.success(data.message);
+      }
     } catch (error: any) {
-      console.log(error);
-      console.log(error.response.data.message);
+      if (axios.isAxiosError(error)) {
+        setIsLoading(false);
+        toast.error(error?.response?.data?.message);
+      } else {
+        setIsLoading(false);
+        toast.error("Something went wrong, please try again");
+      }
     }
-
-    // try {
-    //   const resp = await axiosClient.post("/auth/reset", {
-    //     email,
-    //   });
-
-    //   console.log(resp);
-
-    //   // if (data?.success) {
-    //   //   toast.success(data.message);
-    //   // }
-    // } catch (error: any) {
-    //   console.log(error?.response?.data?.message);
-
-    //   // if (axios.isAxiosError(error)) {
-    //   //   toast.error(error?.response?.data?.message);
-    //   // } else {
-    //   //   toast.error("Something went wrong, please try again");
-    //   // }
-    // }
   };
 
   return (
@@ -69,11 +67,15 @@ const ForgotPassword = () => {
         </div>
 
         <div className="grid place-items-center mt-6">
-          <input
-            type="submit"
-            value="Reset Password"
-            className="btn btn-info btn-wide"
-          />
+          {!isLoading ? (
+            <input
+              type="submit"
+              value="Reset Password"
+              className="btn btn-info btn-wide"
+            />
+          ) : (
+            <button className="btn btn-info btn-wide loading"></button>
+          )}
         </div>
       </form>
     </section>
