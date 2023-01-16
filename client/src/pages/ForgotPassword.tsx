@@ -27,6 +27,7 @@ const ForgotPassword = () => {
         }
       );
 
+      // Not sure for some reason my axios client is not working😢
       // const { data } = await axiosClient.post("/auth/reset", {
       //   email,
       // });
